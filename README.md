@@ -2,7 +2,7 @@
 
 E164 project by **APEX Mechanics**: Dylan Adili, Amy Enayati, Alex Bilello.
 
-A prosthetic hand that performs a grab when the user flexes their forearm, built for under $105 using a MyoWare 2.0 muscle sensor, a Teensy microcontroller, and an SG90 servo.
+A prosthetic hand that performs a grab when the user flexes their forearm. We build this hand with under $105 using a MyoWare 2.0 muscle sensor, a Teensy microcontroller, and an SG90 servo.
 
 ## How it works
 1. Gel electrodes on the forearm pick up muscle signals; the MyoWare 2.0 amplifies, filters, and rectifies them.
@@ -31,11 +31,11 @@ A prosthetic hand that performs a grab when the user flexes their forearm, built
 ## Running the code
 1. Install the Arduino IDE and Teensy support (Teensyduino).
 2. Open `apex_hand/apex_hand.ino`, select **Tools → Board → Teensy 3.2**, and upload.
-3. Open the Serial Monitor at 115200 baud and follow the relax/squeeze calibration.
-4. Flex to close the hand, relax to open. Type `c` to recalibrate.
+3. Open the Serial Monitor and follow the relax/squeeze calibration.
+4. Flex your muscles to close the hand, relax to open. 
 
 ## Settings you can tune (in `apex_hand.ino`)
-- `OPEN_ANGLE` / `CLOSED_ANGLE` — servo angles for open and closed
+- `OPEN_ANGLE` / `CLOSED_ANGLE` — servo angles for open and closed (depending on how you position the motors)
 - `ON_THRESHOLD` / `OFF_THRESHOLD` — flex level that closes / reopens the hand
 - `MAX_CLOSE_RATE` — how fast the hand moves
 
