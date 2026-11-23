@@ -2,7 +2,7 @@
 //  APEX Mechanics — E164 Low-Cost EMG-Controlled Prosthetic Hand
 //  Dylan Adili, Amy Enayati, Alex Bilello
 //
-//  Hardware: Teensy 3.6 + MyoWare 2.0 Muscle Sensor + 1 SG90 servo
+//  Hardware: Teensy 3.6 + MyoWare 2.0 Muscle Sensor + 4 SG90 servos (one per finger)
 //  Function: one grip pattern (grab). Flex -> hand closes, relax -> opens.
 //
 //  Signal chain (see project plan, Engineering analysis/methods):
@@ -15,7 +15,7 @@
 //    MyoWare ENV  -> Teensy A0
 //    MyoWare +    -> Teensy 3.3V   (NOT 5V: Teensy 3.6 analog pins are
 //    MyoWare -    -> Teensy GND     not 5V tolerant)
-//    Servo signal -> pin 2 (one servo pulls all five finger tendons)
+//    Servo signals -> pins 2, 3, 4, 5
 //    Servo power  -> separate 5-6V supply (NOT the Teensy). Tie that
 //                    supply's GND to Teensy GND.
 //    Recalibrate button (optional) -> pin 12 to GND
@@ -35,14 +35,15 @@ const int EMG_PIN        = A0;
 const int CAL_BUTTON_PIN = 12;   // INPUT_PULLUP, press = LOW
 const int LED_PIN        = 13;   // on-board LED, lit while grip is active
 
-const int NUM_FINGERS = 1;   // number of servos (all tendons on one pulley)
-const int SERVO_PINS[NUM_FINGERS] = {2};
+const int NUM_FINGERS = 4;   // number of servos (one per finger)
+const int SERVO_PINS[NUM_FINGERS] = {2, 3, 4, 5};
 
 // Servo angles (degrees) for open and closed. Tune each finger on the
 // bench during the one-finger prototype test — tendon length and pulley
 // size change these. If a finger closes the wrong way, swap its values.
-int OPEN_ANGLE[NUM_FINGERS]   = {150};
-int CLOSED_ANGLE[NUM_FINGERS] = {10};
+int OPEN_ANGLE[NUM_FINGERS]   = {160,   0, 160,   0};
+int CLOSED_ANGLE[NUM_FINGERS] = {  0, 160,   0, 180};
+//                               pin2 pin3 pin4 pin5
 
 // --------------------------- Sampling --------------------------------
 const uint32_t SAMPLE_PERIOD_US = 1000;  // 1 kHz hardware timer
@@ -181,6 +182,14 @@ void countdown(const char *msg) {
   }
 }
 
+// Quick LED flashes so calibration can be followed without the Serial Monitor
+void flashLED(int times, int onMs, int offMs) {
+  for (int i = 0; i < times; i++) {
+    digitalWrite(LED_PIN, HIGH); delay(onMs);
+    digitalWrite(LED_PIN, LOW);  delay(offMs);
+  }
+}
+
 void calibrate() {
   // Hand stays open and detection is off during calibration
   calibrated = false;
@@ -208,10 +217,11 @@ void calibrate() {
     // Too little difference: electrodes probably misplaced or loose
     Serial.println("CAL: flex barely differs from rest. Check electrode "
                    "placement/contact and try again.");
-    delay(1500);
+    flashLED(10, 50, 100);   // fast flicker = calibration failed, starting over
   }
 
   calibrated = true;
+  flashLED(5, 100, 100);     // 5 quick flashes = calibration done, ready to use
   Serial.println("CAL: done. Flex to grab, relax to open.");
 }
 
