@@ -14,7 +14,7 @@ A prosthetic hand that performs a grab when the user flexes their forearm. We bu
 ## Hardware
 - Teensy 3.2
 - MyoWare 2.0 Muscle Sensor + gel electrodes
-- SG90 micro servo
+- 4 SG90 micro servos
 - 5–6 V power supply for the servo
 
 ## Wiring
@@ -24,9 +24,9 @@ A prosthetic hand that performs a grab when the user flexes their forearm. We bu
 | MyoWare + | Teensy 3.3V |
 | MyoWare − | Teensy GND |
 | Servo orange (signal) | Teensy pin 2 |
-| Servo red | Supply + (5–6 V) |
+| Servo red | Supply + (5–6 V battery) |
 | Servo brown | Supply − |
-| Supply − | Teensy GND (shared ground — required) |
+| Supply − | Teensy GND (shared ground) |
 
 ## Running the code
 1. Install the Arduino IDE and Teensy support (Teensyduino).
