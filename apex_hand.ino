@@ -2,7 +2,7 @@
 //  APEX Mechanics — E164 Low-Cost EMG-Controlled Prosthetic Hand
 //  Dylan Adili, Amy Enayati, Alex Bilello
 //
-//  Hardware: Teensy 3.6 + MyoWare 2.0 Muscle Sensor + 4 SG90 servos (one per finger)
+//  Hardware: Teensy 3.2 + MyoWare 2.0 Muscle Sensor + 4 SG90 servos (one per finger)
 //  Function: one grip pattern (grab). Flex -> hand closes, relax -> opens.
 //
 //  Signal chain (see project plan, Engineering analysis/methods):
